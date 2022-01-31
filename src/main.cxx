@@ -37,9 +37,8 @@ int main(){
         printf("glad load faild\n");
         return -1;
     }
-
     Shader shader = Shader("./Shaders/vert.glsl","./Shaders/frag.glsl");
-    float o[3] = {0.0f,0.0f,0.0f};
+    float o[3] = {-1.0f,-1.0f,0.0f};
     plane *p = create_plane(o,back,shader.ID);
     glViewport(0, 0, WIDTH, HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -49,7 +48,7 @@ int main(){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         render_plane(p);
-        
+
         // unsigned int VBO;
         // glGenBuffers(1,&VBO);
         // glBindBuffer(GL_ARRAY_BUFFER,VBO);

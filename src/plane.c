@@ -61,27 +61,30 @@ plane *create_plane(float o[3],directions d,GLint program){
     p->origin[2] = o[2];
     p->program = program;
     GLuint indices[] = {
-        0,1,3,
-        0,2,3
+        0,2,3,
+        3,1,0
     };
     unsigned int VAO,VBO,EBO;
-    glGenBuffers(1,&EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
+
     glGenBuffers(1,&VBO);
     glGenVertexArrays(1,&VAO);
-    
+    glGenBuffers(1,&EBO);  
+    printf("%d",EBO);
     glBindVertexArray(VAO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STREAM_DRAW);
     glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,4*sizeof(float),(void *)0);
-    
-    glVertexAttribPointer(1,1,GL_FLOAT,GL_FALSE,4*sizeof(float),(void *)(3*sizeof(float)));
-    printf("%d\n",glGetError());
     glEnableVertexAttribArray(0);
+    // glBindVertexArray(VAO);
+    glVertexAttribPointer(1,1,GL_FLOAT,GL_FALSE,4*sizeof(float),(void *)(3*sizeof(float)));
+    printf("%d\n",glGetError());  
+
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
     
     p->VAO = VAO;
     p->VBO = VBO;
+    p->EBO = EBO;
     init_vector(p,d);
 
     return p;
@@ -98,6 +101,7 @@ void render_plane(plane *p){
     float *v3 = add(p->origin,p->v2);
     float *temp = add(p->v1,p->v2);
     float *v4 = add(p->origin,temp);
+    p->color = green;
     free(temp);
     float points[] ={
         v1[0],v1[1],v1[2],
@@ -109,6 +113,12 @@ void render_plane(plane *p){
         v4[0],v4[1],v4[2],
         (float)p->color,
     } ;
+    for(int i=0;i<16;i++){
+        printf("%f,",points[i]);
+        if((i+1)%4 == 0&&i!=1){
+            printf("\n");
+        }
+    }
     free(v2);
     free(v3);
     free(v4);
@@ -116,5 +126,7 @@ void render_plane(plane *p){
     glBindBuffer(GL_ARRAY_BUFFER,p->VBO);
     glBufferData(GL_ARRAY_BUFFER,sizeof(points),points,GL_STREAM_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,p->EBO);
-    glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
+    printf("%d\n",p->EBO);
+    glDrawElements(GL_TRIANGLES,3,GL_UNSIGNED_INT,(void *)(3*sizeof(unsigned int)));
+
 }
