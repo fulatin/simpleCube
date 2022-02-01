@@ -2,7 +2,10 @@
 #define __PLANE_H
 #include <glfw3native.h>
 #include "./glad/glad.h"
-#include "../include/utils.h"
+#include <myShader.h>
+#include "../include/glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 typedef enum{
 	blue=0,
 	green,
@@ -27,24 +30,30 @@ typedef enum{
 	right,
 	none
 }directions;
+colors direction2color(directions);
 
-typedef struct
+
+class plane
 {
-    float v1[3];
-    float v2[3];
-    float origin[3];
+
+public:
+	glm::vec3 p1;
+    glm::vec3 p2;
+    glm::vec3 p3;
+	glm::vec3 p4;
 	colors color;
     GLuint VAO;
     GLuint VBO;
 	GLuint EBO;
+	Shader *shader;
 	GLuint program;
-}plane;
+	// plane(glm::vec3,directions,Shader*);
+	// ~plane();
+	void rotate_plane(plane *,axis,float);
+	void rotate_plane(plane *,axis,float,glm::vec3);
+	void use_program(plane *);
+	void render_plane(plane *);
+};
 
 
-colors direction2color(directions);
-void init_vector(plane *,directions);
-plane *create_plane(float [3],directions,GLint);
-void rotate_plane(plane *,axis,float);
-void use_program(plane *);
-void render_plane(plane *);
 #endif
