@@ -6,11 +6,6 @@
 #include "../include/plane.h"
 #define HEIGHT 400
 #define WIDTH 800
-// float vertices[] = {
-//     -0.5f, -0.5f, 0.0f,
-//      0.5f, -0.5f, 0.0f,
-//      0.0f,  0.5f, 0.0f
-// };
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -38,17 +33,19 @@ int main(){
         return -1;
     }
     Shader shader = Shader("./Shaders/vert.glsl","./Shaders/frag.glsl");
-    float o[3] = {-1.0f,-1.0f,0.0f};
+    float o[3] = {0.0f,0.0f,0.0f};
     plane *p = create_plane(o,back,shader.ID);
+    plane *p1 = create_plane(o,left,shader.ID);
     glViewport(0, 0, WIDTH, HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     while (!glfwWindowShouldClose(window))
     {
+        
         process_input(window);
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         render_plane(p);
-
+        render_plane(p1);
         // unsigned int VBO;
         // glGenBuffers(1,&VBO);
         // glBindBuffer(GL_ARRAY_BUFFER,VBO);
