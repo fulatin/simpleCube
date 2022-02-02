@@ -27,16 +27,15 @@ typedef enum{
 	up,
 	down,
 	left,
-	right,
-	none
+	right
 }directions;
 colors direction2color(directions);
 
 
 class plane
 {
-
 public:
+	glm::mat4 transform;
 	glm::vec3 p1;
     glm::vec3 p2;
     glm::vec3 p3;
@@ -46,13 +45,13 @@ public:
     GLuint VBO;
 	GLuint EBO;
 	Shader *shader;
-	GLuint program;
-	// plane(glm::vec3,directions,Shader*);
-	// ~plane();
-	void rotate_plane(plane *,axis,float);
-	void rotate_plane(plane *,axis,float,glm::vec3);
-	void use_program(plane *);
-	void render_plane(plane *);
+	// GLuint program;
+	plane(glm::vec3,directions,Shader*);
+	~plane(){};
+	void rotate(axis,float);
+	void rotate(axis,float,glm::vec3);
+	void use_program();
+	void render();
 };
 
 

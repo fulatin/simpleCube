@@ -1,8 +1,11 @@
 #version 330 core
 layout (location = 0) in vec4 aPos;
-out vec4 vertexColor;
+out float vertexColor;
 uniform mat4 transform;
+uniform mat4 view;
+uniform mat4 projection;
 void main(){
-    gl_Position = transform*vec4(aPos.x,aPos.y,aPos.z,5.0);
-    vertexColor = vec4(aPos.w,0.0,0.0,1.0);
+    vec4 temp =projection * view * transform * vec4(aPos.x,aPos.y,aPos.z,1.0);
+    gl_Position = temp;
+    vertexColor = aPos.w;
 }
