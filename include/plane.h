@@ -46,6 +46,7 @@ public:
 	GLuint EBO;
 	Shader *shader;
 	// GLuint program;
+	plane(){};
 	plane(glm::vec3,directions,Shader*);
 	~plane(){};
 	void rotate(axis,float);

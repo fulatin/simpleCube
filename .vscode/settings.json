@@ -4,7 +4,8 @@
         "*.tcc": "cpp",
         "optional": "cpp",
         "numeric": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "memory_resource": "cpp"
     },
     "cmake.configureOnOpen": true
 }

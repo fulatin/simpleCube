@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include "../include/glfw3.h"
 #include "../include/myShader.h"
-#include "plane.h"
+#include <block.h>
 #define HEIGHT 400
 #define WIDTH 800
 float lastX;
@@ -83,9 +83,11 @@ int main(){
         printf("glad load faild\n");
         return -1;
     }
+
     Shader shader = Shader("./Shaders/vert.glsl","./Shaders/frag.glsl");
-    // glm::vec3 o = {-1.0f,-1.0f,0.0f};
-    // plane p = plane(o,front,&shader);
+    glm::vec3 o = {-1.0f,-1.0f,0.0f}; 
+    block b = block(o,&shader);
+    plane p = plane(o,front,&shader);
 
 
     glm::mat4 view;
@@ -100,8 +102,6 @@ int main(){
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
-
-
 
     while (!glfwWindowShouldClose(window))
     {
@@ -118,13 +118,16 @@ int main(){
 
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
-
+        // shader.setMat4("transform",view);
         shader.setMat4("view",view);
-        shader.setMat4("projection",projection);
+        printf("%d",glGetError());
 
-        
-        // p.render();
-        // p.rotate(z,(float)glfwGetTime()*100,glm::vec3(3.0,1.0,0.0));
+        shader.setMat4("projection",projection);
+        p.render();
+
+
+        b.render();
+
 
         glfwPollEvents();
         glfwSwapBuffers(window);
