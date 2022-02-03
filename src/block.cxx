@@ -28,4 +28,20 @@ void block::render(){
         planes[i].render();           
     }
         
+};
+
+void block::rotate(axis a,float deg,glm::vec3 o){
+    int i;
+    for(i=0;i<6;i++){
+        planes[i].rotate(a,deg,o);
+    }
+
 }
+
+void block::rotateFinish(axis a,float deg,glm::vec3 o){
+    int i;
+    for(i=0;i<6;i++){
+        planes[i].rotateFinish(a,deg,o);
+    }
+}
+

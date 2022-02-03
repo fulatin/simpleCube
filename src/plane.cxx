@@ -136,7 +136,7 @@ void plane::rotate(axis a,float deg){
 }
 
 void plane::rotate(axis a,float deg,glm::vec3 o){
-        transform = glm::mat4(1.0);
+    transform = glm::mat4(1.0);
     glm::vec3 axis_vec;
     switch (a)
     {
@@ -155,5 +155,15 @@ void plane::rotate(axis a,float deg,glm::vec3 o){
     transform = glm::translate(transform,-o);
     transform = glm::rotate(transform,glm::radians(deg),axis_vec);
     transform = glm::translate(transform,o);
-    shader->setMat4("transform",transform);
+    // shader->setMat4("transform",transform);
+}
+
+void plane::rotateFinish(axis a,float deg,glm::vec3 o){
+    rotate(a,deg,o);
+    p1 = transform*glm::vec4(p1,0.0);
+    
+    p2 = transform*glm::vec4(p2,0.0);
+    p3 = transform*glm::vec4(p3,0.0);
+    p4 = transform*glm::vec4(p4,0.0);
+    // transform = glm::mat4(1.0);
 }

@@ -4,6 +4,7 @@
 #include "../include/glfw3.h"
 #include "../include/myShader.h"
 #include <block.h>
+#include <cube.h>
 #define HEIGHT 400
 #define WIDTH 800
 float lastX;
@@ -87,8 +88,7 @@ int main(){
     Shader shader = Shader("./Shaders/vert.glsl","./Shaders/frag.glsl");
     glm::vec3 o = {-1.0f,-1.0f,0.0f}; 
     block b = block(o,&shader);
-    plane p = plane(o,front,&shader);
-
+    cube c = cube(&shader);
 
     glm::mat4 view;
     glm::mat4 projection;
@@ -102,7 +102,7 @@ int main(){
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
-
+    c.set_rotate(M,true);
     while (!glfwWindowShouldClose(window))
     {
         
@@ -120,14 +120,10 @@ int main(){
 
         // shader.setMat4("transform",view);
         shader.setMat4("view",view);
-        printf("%d",glGetError());
 
         shader.setMat4("projection",projection);
-        p.render();
-
-
-        b.render();
-
+            // c.set_rotate(L,false);
+        c.action(deltaTime);
 
         glfwPollEvents();
         glfwSwapBuffers(window);

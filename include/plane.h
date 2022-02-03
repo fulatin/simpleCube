@@ -51,6 +51,7 @@ public:
 	~plane(){};
 	void rotate(axis,float);
 	void rotate(axis,float,glm::vec3);
+	void rotateFinish(axis,float,glm::vec3);
 	void use_program();
 	void render();
 };
