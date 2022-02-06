@@ -45,7 +45,6 @@ public:
     GLuint VBO;
 	GLuint EBO;
 	Shader *shader;
-	// GLuint program;
 	plane(){};
 	plane(glm::vec3,directions,Shader*);
 	~plane(){};

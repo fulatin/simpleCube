@@ -10,8 +10,11 @@
 float lastX;
 float lastY;
 bool firstMouse;
+bool isMoveMode = true;
+bool r = false;
 float pitch = 0.0f;
 float yaw = 0.0f;
+cube c;
 glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
@@ -23,18 +26,43 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 
 void process_input(GLFWwindow *window){
+    if(glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+        isMoveMode = !isMoveMode;
+    if(isMoveMode){
 
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, 1);
-    float cameraSpeed = 2.5f*deltaTime; // adjust accordingly
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cameraPos += cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cameraPos -= cameraSpeed * cameraFront;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(window, 1);
+        float cameraSpeed = 5.0f*deltaTime; // adjust accordingly
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            cameraPos += cameraSpeed * cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            cameraPos -= cameraSpeed * cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    }else{
+        if(glfwGetKey(window,GLFW_KEY_V) == GLFW_PRESS)
+            r = !r;
+        if(glfwGetKey(window,GLFW_KEY_R) == GLFW_PRESS)
+            c.set_rotate(R,r);
+        if(glfwGetKey(window,GLFW_KEY_M) == GLFW_PRESS)
+            c.set_rotate(M,r);
+        if(glfwGetKey(window,GLFW_KEY_L) == GLFW_PRESS)
+            c.set_rotate(L,r);
+        if(glfwGetKey(window,GLFW_KEY_U) == GLFW_PRESS)
+            c.set_rotate(U,r);
+        if(glfwGetKey(window,GLFW_KEY_E) == GLFW_PRESS)
+            c.set_rotate(E,r);
+        if(glfwGetKey(window,GLFW_KEY_D) == GLFW_PRESS)
+            c.set_rotate(D,r);
+        if(glfwGetKey(window,GLFW_KEY_F) == GLFW_PRESS)
+            c.set_rotate(F,r);
+        if(glfwGetKey(window,GLFW_KEY_S) == GLFW_PRESS)
+            c.set_rotate(S,r);
+        if(glfwGetKey(window,GLFW_KEY_B) == GLFW_PRESS)
+            c.set_rotate(B,r);
+    }
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos){
@@ -88,7 +116,7 @@ int main(){
     Shader shader = Shader("./Shaders/vert.glsl","./Shaders/frag.glsl");
     glm::vec3 o = {-1.0f,-1.0f,0.0f}; 
     block b = block(o,&shader);
-    cube c = cube(&shader);
+    c = cube(&shader);
 
     glm::mat4 view;
     glm::mat4 projection;
@@ -122,9 +150,7 @@ int main(){
         shader.setMat4("view",view);
 
         shader.setMat4("projection",projection);
-            // c.set_rotate(L,false);
         c.action(deltaTime);
-
         glfwPollEvents();
         glfwSwapBuffers(window);
     }

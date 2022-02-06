@@ -2,14 +2,14 @@
 
 cube::cube(Shader *s){
     isRotating = false;
-    speed = 10;
+    speed = 30;
     deg = 0;
-    centerPoint = glm::vec3(-1.5,-1.5,1.5);
+    centerPoint = glm::vec3(-1.5,-1.5,-1.5);
     int i,j,k;
     for(i=0;i<3;i++){
         for(j=0;j<3;j++){
             for(k=0;k<3;k++){
-                blocks[i][j][k] = block(glm::vec3(i,j,-k),s);
+                blocks[i][j][k] = block(glm::vec3(i,j,k),s);
             }
         }
     }
@@ -92,7 +92,7 @@ void cube::set_rotate(layers l,bool r){
 }
 void cube::action(float deltaTime){
     if(isRotating){
-        rotate();
+        rotate(deltaTime*speed);
         if(reverse)
         {
             deg -=deltaTime*speed;
@@ -115,26 +115,26 @@ void cube::action(float deltaTime){
     }
 }
 
-void cube::rotate(){
+void cube::rotate(float degree){
     int i,j;
     if(a == x){
         for(i=0;i<3;i++){
             for(j=0;j<3;j++){
-                blocks[index][i][j].rotate(a,deg,centerPoint);
+                blocks[index][i][j].rotate(a,degree,centerPoint);
             }
         }
     }
     if(a == y){
         for(i=0;i<3;i++){
             for(j=0;j<3;j++){
-                blocks[i][index][j].rotate(a,deg,centerPoint);
+                blocks[i][index][j].rotate(a,degree,centerPoint);
             }
         }
     }
     if(a == z){
         for(i=0;i<3;i++){
             for(j=0;j<3;j++){
-                blocks[j][i][index].rotate(a,deg,centerPoint);
+                blocks[j][i][index].rotate(a,degree,centerPoint);
             }
         }
     }
@@ -156,7 +156,9 @@ void cube::rotateFinish(){
                 blocks[index][i][j].rotateFinish(a,deg,centerPoint);
             }
         }
-        if(reverse){
+        if(!reverse){
+            printf("yes\n");
+
             //exchange the corners
             exchange(&blocks[index][0][0],&blocks[index][2][0]);
             exchange(&blocks[index][0][0],&blocks[index][2][2]);
@@ -170,6 +172,8 @@ void cube::rotateFinish(){
 
         }
         else{
+            printf("yes\n");
+
             //exchange the corners
             exchange(&blocks[index][0][0],&blocks[index][0][2]);
             exchange(&blocks[index][0][0],&blocks[index][2][2]);
@@ -187,7 +191,9 @@ void cube::rotateFinish(){
                 blocks[i][index][j].rotateFinish(a,deg,centerPoint);
             }
         }
-        if(reverse){
+        if(!reverse){
+            printf("yes\n");
+
             //exchange the corners
             exchange(&blocks[0][index][0],&blocks[2][index][0]);
             exchange(&blocks[0][index][0],&blocks[2][index][2]);
@@ -198,6 +204,8 @@ void cube::rotateFinish(){
             exchange(&blocks[0][index][1],&blocks[1][index][2]);
         }
         else{
+            printf("yes\n");
+
             //exchange the corners
             exchange(&blocks[0][index][0],&blocks[0][index][2]);   
             exchange(&blocks[0][index][0],&blocks[2][index][2]);
@@ -209,23 +217,30 @@ void cube::rotateFinish(){
 
         }
     }
+
+    /* 
+    it seems that there is something wrong!!!
+     */
     if(a == z){
         for(i=0;i<3;i++){
             for(j=0;j<3;j++){
                 blocks[j][i][index].rotateFinish(a,deg,centerPoint);
             }
         }
-        if(reverse){
+        if(!reverse){
             //exchange the corners
             exchange(&blocks[0][0][index],&blocks[2][0][index]);
             exchange(&blocks[0][0][index],&blocks[2][2][index]);
             exchange(&blocks[0][0][index],&blocks[0][2][index]);
             //exchange the edges
+            printf("yes\n");
             exchange(&blocks[0][1][index],&blocks[1][0][index]);
             exchange(&blocks[0][1][index],&blocks[2][1][index]);
             exchange(&blocks[0][1][index],&blocks[1][2][index]);
         }
         else{
+            printf("yes\n");
+
             //exchange the corners
             exchange(&blocks[0][0][index],&blocks[0][2][index]);   
             exchange(&blocks[0][0][index],&blocks[2][2][index]);

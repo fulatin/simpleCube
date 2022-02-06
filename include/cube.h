@@ -31,6 +31,7 @@ public:
     void render();
     void rotate_axis(axis,int);
     void rotate();
+    void rotate(float);
     void set_rotate(layers,bool); //bool decides whether reserves
     void rotateFinish();  //change the value
     void action(float);

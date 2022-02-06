@@ -36,22 +36,22 @@ plane::plane(glm::vec3 o,directions d, Shader *s){
     switch (d)
     {
     case left:
-        v1 = glm::vec3(0.0,0.0,-1.0);
+        v1 = glm::vec3(0.0,0.0,1.0);
         v2 = glm::vec3(0.0,1.0,0.0);
         break;
     case right:
-        v1 = glm::vec3(0.0,0.0,-1.0);
+        v1 = glm::vec3(0.0,0.0,1.0);
         v2 = glm::vec3(0.0,1.0,0.0);
         v1 = -v1;
         v2 = -v2;
         break;
 
     case down:
-        v1 = glm::vec3(0.0,0.0,-1.0);
+        v1 = glm::vec3(0.0,0.0,1.0);
         v2 = glm::vec3(1.0,0.0,0.0);
         break;
     case up:
-        v1 = glm::vec3(0.0,0.0,-1.0);
+        v1 = glm::vec3(0.0,0.0,1.0);
         v2 = glm::vec3(1.0,0.0,0.0);
         v1 = -v1;
         v2 = -v2;
@@ -132,11 +132,11 @@ void plane::rotate(axis a,float deg){
         break;
     }
     transform = glm::rotate(transform,glm::radians(deg),axis_vec);
-    shader->setMat4("transform",transform);
+    // shader->setMat4("transform",transform);
 }
 
 void plane::rotate(axis a,float deg,glm::vec3 o){
-    transform = glm::mat4(1.0);
+    // transform = glm::mat4(1.0);
     glm::vec3 axis_vec;
     switch (a)
     {
@@ -159,11 +159,12 @@ void plane::rotate(axis a,float deg,glm::vec3 o){
 }
 
 void plane::rotateFinish(axis a,float deg,glm::vec3 o){
-    rotate(a,deg,o);
-    p1 = transform*glm::vec4(p1,0.0);
-    
-    p2 = transform*glm::vec4(p2,0.0);
-    p3 = transform*glm::vec4(p3,0.0);
-    p4 = transform*glm::vec4(p4,0.0);
+
     // transform = glm::mat4(1.0);
+    // rotate(a,deg,o);
+    p1 = transform*(glm::vec4(p1,1.0));
+    p2 = transform*(glm::vec4(p2,1.0));
+    p3 = transform*(glm::vec4(p3,1.0));
+    p4 = transform*(glm::vec4(p4,1.0));
+    transform = glm::mat4(1.0);
 }
