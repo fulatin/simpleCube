@@ -160,8 +160,8 @@ void plane::rotate(axis a,float deg,glm::vec3 o){
 
 void plane::rotateFinish(axis a,float deg,glm::vec3 o){
 
-    // transform = glm::mat4(1.0);
-    // rotate(a,deg,o);
+    transform = glm::mat4(1.0);
+    rotate(a,deg,o);
     p1 = transform*(glm::vec4(p1,1.0));
     p2 = transform*(glm::vec4(p2,1.0));
     p3 = transform*(glm::vec4(p3,1.0));

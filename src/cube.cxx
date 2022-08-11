@@ -2,7 +2,7 @@
 
 cube::cube(Shader *s){
     isRotating = false;
-    speed = 30;
+    speed = 100;
     deg = 0;
     centerPoint = glm::vec3(-1.5,-1.5,-1.5);
     int i,j,k;
@@ -58,7 +58,7 @@ void cube::set_rotate(layers l,bool r){
                 case U:
                     index = 2;
                     break;
-                case M:
+                case E:
                     index = 1;
                     break;
                 case D:
@@ -187,7 +187,9 @@ void cube::rotateFinish(){
                 blocks[i][index][j].rotateFinish(a,deg,centerPoint);
             }
         }
-        if(!reverse){
+
+        // 我不知道为什么这里不加！ ，但是加了！似乎有bug
+        if(reverse){
             printf("yes\n");
 
             //exchange the corners
