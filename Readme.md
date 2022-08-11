@@ -1,6 +1,6 @@
 # simpleCube
 
-a simple cube using opengl
+a simple Rubik's Cube using opengl
 
 
 
