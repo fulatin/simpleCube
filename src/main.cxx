@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <glad/glad.h>
+#include <../include/glad/glad.h>
 #include "../include/glfw3.h"
 #include "../include/myShader.h"
 #include <block.h>
@@ -30,8 +30,7 @@ void process_input(GLFWwindow *window){
         isMoveMode = !isMoveMode;
     if(isMoveMode){
 
-        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(window, 1);
+
         float cameraSpeed = 5.0f*deltaTime; // adjust accordingly
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             cameraPos += cameraSpeed * cameraFront;
@@ -63,6 +62,8 @@ void process_input(GLFWwindow *window){
         if(glfwGetKey(window,GLFW_KEY_B) == GLFW_PRESS)
             c.set_rotate(B,r);
     }
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, 1);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos){
@@ -128,9 +129,9 @@ int main(){
     glViewport(0, 0, WIDTH, HEIGHT);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glEnable(GL_DEPTH_TEST);
-    c.set_rotate(M,true);
+    // c.set_rotate(M,true);
     while (!glfwWindowShouldClose(window))
     {
         

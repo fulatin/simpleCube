@@ -28,6 +28,7 @@ void cube::render(){
 
 void cube::set_rotate(layers l,bool r){
     if(!isRotating){
+        
         isRotating = true;
         deg = 0.0f;
         reverse = r;
@@ -43,7 +44,6 @@ void cube::set_rotate(layers l,bool r){
                     index = 1;
                     break;
                 case L:
-                    printf("enter");
                     index = 0;
                     break;
                 default:
@@ -52,8 +52,7 @@ void cube::set_rotate(layers l,bool r){
         }
         if(l== U||l==E||l==D)
         {
-            printf("enter");
-            a = y;
+            a = z;
             switch (l)
             {
                 case U:
@@ -71,8 +70,7 @@ void cube::set_rotate(layers l,bool r){
         }
         if(l==F||l==S||l==B)
         {
-            printf("enter");
-            a = z;
+            a = y;
             switch (l)
             {
                 case B:
@@ -157,7 +155,6 @@ void cube::rotateFinish(){
             }
         }
         if(!reverse){
-            printf("yes\n");
 
             //exchange the corners
             exchange(&blocks[index][0][0],&blocks[index][2][0]);
@@ -172,7 +169,6 @@ void cube::rotateFinish(){
 
         }
         else{
-            printf("yes\n");
 
             //exchange the corners
             exchange(&blocks[index][0][0],&blocks[index][0][2]);
@@ -204,8 +200,6 @@ void cube::rotateFinish(){
             exchange(&blocks[0][index][1],&blocks[1][index][2]);
         }
         else{
-            printf("yes\n");
-
             //exchange the corners
             exchange(&blocks[0][index][0],&blocks[0][index][2]);   
             exchange(&blocks[0][index][0],&blocks[2][index][2]);
@@ -233,14 +227,11 @@ void cube::rotateFinish(){
             exchange(&blocks[0][0][index],&blocks[2][2][index]);
             exchange(&blocks[0][0][index],&blocks[0][2][index]);
             //exchange the edges
-            printf("yes\n");
             exchange(&blocks[0][1][index],&blocks[1][0][index]);
             exchange(&blocks[0][1][index],&blocks[2][1][index]);
             exchange(&blocks[0][1][index],&blocks[1][2][index]);
         }
         else{
-            printf("yes\n");
-
             //exchange the corners
             exchange(&blocks[0][0][index],&blocks[0][2][index]);   
             exchange(&blocks[0][0][index],&blocks[2][2][index]);
